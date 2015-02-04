@@ -1,0 +1,369 @@
+ <openerp><data>
+
+
+  <template id="assets_frontend" inherit_id="website.assets_frontend" name="chd_product_configurator">
+  <xpath expr="." position="inside">
+      <script type="text/javascript" src="/website_chd_product_configurator/static/src/js/website_chd_product_configurator.js"></script>
+      <link rel='stylesheet' href='/website_chd_product_configurator/static/src/css/website_chd_product_configurator.css'/>
+  </xpath>
+  </template>
+
+
+  <template id="conf_start">
+    <t t-call="website.layout">
+      <t t-set="title">Product Configurator</t>
+      <div class="oe_structure"/>
+      <div class="oe_structure">
+        <div class="container">
+        <h3>configurable products available</h3>
+         <form t-attf-action="/chd_init/" method="post" >
+            <select t-attf-name="selected_id" class= "form-control product_selection" id="prod_select_id">
+                <option></option>
+                <t t-foreach="conf_products" t-as="conf_product">
+                    <option t-att-value="conf_product.id" class= "form-control product_selection">
+                         <t t-esc="conf_product.name"/>
+                    </option>
+                </t>
+           </select>
+        <button type="submit" class="btn btn-primary btn-lg pull-center" >Select Configurable Product</button>
+        </form>
+        <div class="clearfix"/>
+        </div>
+      </div>
+      <div class="oe_structure"/>
+    </t>
+  </template>
+
+ <template id="configurator">
+    <t t-call="website.layout">
+       <t t-set="title">Product Configurator</t>
+          <div class="oe_structure"/>
+          <div class="oe_structure">
+          <div class="container">
+            <h3 id="c_title">Configuration options for <t t-esc="curr_product_id.name" /></h3>
+            <form id="mainf" t-attf-action="/chd_init/#{ curr_product_id.id }/" method="post"  enctype="multipart/form-data"  class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="row">
+                         <div class="col-sm-1" >
+                            <label for="quantity" >Quantity</label>
+                         </div>
+                         <div class="col-sm-2" >
+                            <input required="true" type="number"  min="0" name="quantity" class="form-control input-sm"/>
+                        </div>
+                    </div>
+                    <div t-if="curr_product_id.chd_size_type in ('fixed')" class="row">
+                        <div class="col-sm-8" >
+                            <label for="size">Size (fixed choices available):
+                                <select required="true" t-attf-name="size" class="form-control input-sm size_selection" id="size_select_id">
+                                <option></option>
+                                <t t-foreach="curr_product_id.chd_size_ids" t-as="curr_size">
+                                     <option  t-att-value="curr_size.id" >
+                                             <t t-esc="curr_size.name"/>
+                                     </option>
+                                </t>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div t-if="curr_product_id.chd_size_type in ('dynamic')" class="row">
+                            <div class="col-sm-6">
+                                       <div class="row">
+                                            <div class="col-sm-2">
+                                                <label for="size">Width</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input required="true" type="number"  min="0" size="7" name="width" class="form-control input-sm"/>
+                                            </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-sm-2">
+                                            <label for="size">Height</label>
+                                          </div>
+                                        <div class="col-sm-4">
+                                            <input required="true" type="number"  min="0" size="7" name="height" class="form-control input-sm" />
+                                          </div>
+                                       </div>
+                            </div>
+
+                        <div class="col-xs-4">
+                            <div >
+                                 <table>
+                                 <thead>
+                                    <tr>
+                                        <td>
+                                        <strong> Available size range:</strong>
+                                        </td>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                        <td>
+                                         Width:
+                                        </td>
+                                        <td>
+                                        From <t t-esc="curr_product_id.chd_min_width"/> to <t t-esc="curr_product_id.chd_max_width"/>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>
+                                          height:
+                                        </td>
+                                        <td>
+                                         From <t t-esc="curr_product_id.chd_min_height"/> to <t t-esc="curr_product_id.chd_max_height"/>
+                                        </td>
+                                    </tr>
+                                 </tbody>
+                                 </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="unselected-field" style="display: inline-block;">
+                         <label>Type:
+                         <select t-attf-name="type" class="form-control type_selection" id="type_select_id">
+                                <option></option>
+                                <t t-foreach="curr_types" t-as="curr_type">
+                                    <option t-att-value="curr_type.id" class="form-control type_selection">
+                                         <t t-esc="curr_type.name"/>
+                                    </option>
+                                </t>
+                          </select>
+                        </label>
+                    </div>
+                    <div class="unselected-field" style="display: inline-block;">
+                         <label>Finishing:
+                         <select t-attf-name="finishing" class= "form-control fini_selection" id="fini_select_id">
+                            <!-- filled by js -->
+                          </select>
+                        </label>
+                    </div>
+
+
+
+
+                    <!-- generation of product price attributes, all required -->
+                    <div class="form group">
+                              <div class="col-xs-12">
+                                   <h3 t-if="len(curr_chd_price_component_ats) &gt; 1"> Additional parameters for product (required) </h3>
+                                        <t t-foreach="curr_chd_price_component_ats" t-as="curr_chd_price_component_at">
+                                            <!-- i am exluding quantity -->
+                                            <div t-if="curr_chd_price_component_at.property_id.name != 'Quantity'" class="row">
+                                                    <div class="col-sm-4" >
+                                                        <label> <t t-esc="curr_chd_price_component_at.property_name "/>    </label>
+                                                    </div>
+                                                    <div  class="col-sm-8" >
+                                                        <div t-if="curr_chd_price_component_at.property_id.type in ('string')" class="row">
+                                                                  <div class="col-sm-12" >
+                                                                       <select required="true" t-attf-name="pricecomponent_string_id_#{str(curr_chd_price_component_at.id)}_#{str(curr_chd_price_component_at.property_name)}" class="form-control">
+                                                                                <option></option>
+                                                                                <t t-foreach="curr_chd_price_component_at.string_value_ids" t-as="curr_pc">
+                                                                                    <option t-att-value="curr_pc.id" >
+                                                                                         <t t-esc="curr_pc.name"/>
+                                                                                    </option>
+                                                                                </t>
+                                                                          </select>
+                                                                   </div>
+                                                        </div>
+                                                        <div t-if="curr_chd_price_component_at.property_id.type in ('int')" class="row">
+                                                                 <div class="col-sm-12" >
+                                                                       <input required="true" type="number"  min="0"  t-attf-name="pricecomponent_int_id_#{str(curr_chd_price_component_at.id)}_#{str(curr_chd_price_component_at.property_name)}" />
+                                                                 </div>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                         </t>
+                                    </div>
+                    </div>
+
+
+
+
+                         <div class="form-group">
+                              <div class="col-xs-9" t-if="len(avail_accessories) &gt; 0">
+                                    <h3 > Attributes </h3>
+                                    <label for="Accessories"> Available Accessories </label>
+                                     <ul  t-attf-name="accessories" class="accessories_selection" id="accessories_select_id" t-att-multiple="multiple">
+                                                  <t t-foreach="avail_accessories" t-as="curr_accessory">
+                                                            <li t-att-value="curr_accessory.id" >
+                                                            <div class="row" style="border-bottom: 0.5px solid;padding-top: 2px;padding-bottom: 2px;">
+                                                                <div class="col-xs-7">
+                                                                    <label class="checkbox-inline">
+                                                                        <p> <t t-esc="curr_accessory.name"/></p>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-xs-5" style="border-left: 0.5px solid;">
+                                                                    <label id="small_listquantity" for="quantity_acc">Quantity</label>
+                                                                    <input t-attf-name="qtyaccessoryid_#{str(curr_accessory.id)}_#{str(curr_accessory.name)}" type="number"  min="0" t-att-maxlength="3" t-att-size="4" />
+                                                                </div>
+                                                            </div>
+                                                            </li>
+                                                  </t>
+                                        </ul>
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <div class="col-xs-4">
+
+                               </div>
+                               <div class="col-xs-2">
+                                    <button type="submit" class="btn btn-primary btn-lg pull-center" >See Quotations</button>
+                                </div>
+                            </div>
+                    <input type="hidden" name="product_id" t-att-value="curr_product_id.id"/>
+                    <input type="hidden" name="product_id_chd_size_type" t-att-value="curr_product_id.chd_size_type"/>
+                 </div>
+                     <div  class="col-sm-3">
+                            <div t-if="curr_product_id.chd_configurator_has_image" id="imagearea">
+                                  <input class="btn btn-default btn-lg pull-left" type="file" name="pic" accept="image/*" required="true"/>
+                            </div>
+                            <div class="row"> <p>
+                            	<br/>
+                            </p></div>
+
+                            <div id="feedback">
+			                	  <div id="error_msg" t-if="errormsg" class="row">
+										<h5 style="color:red;"> No result found for the values that you entered. We would be happy to give you a custom quote.
+                        Please call 010-7856766</h5>
+			                      </div>
+                            	  <div  id="preferences" class="row">
+										<h5>Preferences</h5>
+			                      </div>
+			                      <div  id="accessory_preferences" class="row">
+										<h5 t-if="(len(avail_accessories) &gt; 0)">Accessories</h5>
+			                     </div>
+		                    </div>
+
+                   </div>
+            </div>
+           </form>
+          </div>
+       </div>
+      <div class="oe_structure"/>
+    </t>
+  </template>
+
+
+   <template id="sale_options">
+    <t t-call="website.layout">
+      <t t-set="title">Sale Options</t>
+      <div class="oe_structure"/>
+      <div class="oe_structure">
+        <div class="container">
+        <h3>Sale options for <t t-esc="curr_product_id.name" />  </h3>
+
+        <div class="row mt12">
+             <div class="col-sm-4">
+                      <div class="row mt4 solid">
+                      			   	<div id="feedback" class="col-xs-6"><t t-raw="summary"/></div>
+                       </div>
+             </div>
+
+             <div class="col-sm-8">
+                <t t-foreach="results" t-as="result">
+                   <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy#{result.id}/" method="post" class="form-horizontal result_option">
+                       <input type="hidden" name="result_obj" t-att-value="result" />
+                       <div  class="row" style="border-bottom: 0.5px solid;" id="sale_option">
+                       <br/>
+                            <div class="col-xs-6">
+                            	<p>Product name: <t t-esc="result.configurator_id.origin_product_id.name"/> </p>
+                            	<p>Quantity: <t t-esc="result.configurator_id.quantity"/> </p>
+                            	<p>Configuration date: <t t-esc="result.configurator_id.create_date"/> </p>
+                            	<p>Created by <t t-esc="result.configurator_id.partner_id.name"/></p>
+                            </div>
+                            <div class="col-xs-6">
+
+                                <p>list price:<b> <t t-esc="result.list_price"/> </b> </p>
+                                <p>Cost price for supplier : <b><t t-esc="result.standard_price"/></b> </p>
+                                <p>Customer price : <b><t t-esc="result.customer_price"/></b> </p>
+                                <p>Total order amount ex. VAT : <b><t t-esc="result.total_amount_ex_vat"/></b> </p>
+                                <br/>
+                            </div>
+
+
+                        <button id="buy" value="buy" name="action" type="submit" class="btn btn-primary btn-lg pull-right" >Buy</button>
+                        </div>
+                    </form>
+                </t>
+         	</div>
+        </div>
+      </div>
+      </div>
+      <div class="oe_structure"/>
+      </t>
+  </template>
+
+     <template id="buy_option">
+    <t t-call="website.layout">
+      <t t-set="title">Purchase</t>
+      <div class="oe_structure"/>
+      <div class="oe_structure">
+        <div class="container">
+        <h3> <t t-esc="result.configurator_id.partner_id.name"/> , you have confirmed the purchase of <t t-esc="result.configurator_id.origin_product_id.name"/> configured as follows: </h3>
+        <br/>
+		<div class="row mt12">
+             <div class="col-sm-4"><t t-raw="summary"/></div>
+             <div class="col-sm-8">
+						<div class="col-xs-4">
+							    <br/>
+                            	<p>Product name: <t t-esc="result.configurator_id.origin_product_id.name"/> </p>
+                            	<p>Quantity: <t t-esc="result.configurator_id.quantity"/> </p>
+                            	<p>Configuration date: <t t-esc="result.configurator_id.create_date"/> </p>
+                            	<p>Created by <t t-esc="result.configurator_id.partner_id.name"/></p>
+                            </div>
+                            <div class="col-xs-6">
+								<br/>
+                                <p>list price:<b> <t t-esc="result.list_price"/> </b> </p>
+                                <p>Cost price for supplier : <b><t t-esc="result.standard_price"/></b> </p>
+                                <p>Customer price : <b><t t-esc="result.customer_price"/></b> </p>
+                                <p>Total order amount ex. VAT : <b><t t-esc="result.total_amount_ex_vat"/></b> </p>
+                                <br/>
+                            </div>
+
+              </div>
+            </div>
+            <div class="row mt12">
+ 				<div class="col-sm-12">
+              				<p>
+              					<br/>
+                                <p><b> Your purchase has been added to sale order <t t-esc="order.name"/> . </b></p>
+                                <p><b> And will be delivered to<t t-esc="order.sender_address_id.contact_address"/> . </b></p>
+              				</p>
+	    		             <button id="back" value="back" name="action" type="button" class="btn btn-primary btn-lg pull-left back" > &lt; Back</button>
+             </div>
+
+
+
+         </div>
+        </div>
+		</div>
+      <div class="oe_structure"/>
+      </t>
+  </template>
+
+
+    <template id="no_partner">
+    <t t-call="website.layout">
+      <t t-set="title">No partner associated</t>
+      <div class="oe_structure"/>
+      <div class="oe_structure">
+        <div class="container">
+        <h3>No partner has been registered for this user, please contact us.</h3>
+      </div>
+      </div>
+      <div class="oe_structure"/>
+      </t>
+  </template>
+
+<template id="header" inherit_id="website.layout" name="Header Product Configurator">
+  <xpath expr="//header//ul[@id='top_menu']/li" position="before">
+      <li >
+          <a href="/chd_init/">
+                Product Configurator
+          </a>
+      </li>
+  </xpath>
+</template>
+
+
+  </data></openerp>
