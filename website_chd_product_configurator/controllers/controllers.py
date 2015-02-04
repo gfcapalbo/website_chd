@@ -97,12 +97,9 @@ class Chd_website(http.Controller):
             if ('pricecomponent_' in key):
                 # if it is of type "string" the value is the index of the
                 # selection in pricecomponent_name, the id encoded in the key
-                if 'pricecomponent_string' in key:
-                    pricecomponent_id = int(key.split('_')[3])
-                    pricecomponent_value = form_data[key]
                 # if it is of type numerical the value is the actual value of
                 # the pricecomponent field, the id is encoded in the key
-                if 'pricecomponent_int' in key:
+                if ('pricecomponent_string' in key) or ('pricecomponent_int' in key):
                     pricecomponent_id = int(key.split('_')[3])
                     pricecomponent_value = form_data[key]
                 # the configurator stores the attributes in a
