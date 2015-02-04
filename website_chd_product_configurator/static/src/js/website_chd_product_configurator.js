@@ -1,5 +1,4 @@
 $(document).ready(function () {
-	console.log(openerp);
 	$('.type_selection').each(function () {
 	    var type_selection = this;
 	    $(type_selection).on('click', '.type_selection', function ()
