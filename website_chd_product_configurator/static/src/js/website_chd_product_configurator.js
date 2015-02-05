@@ -18,10 +18,8 @@ $(document).ready(function () {
     			  			});
     		  })
     });
-
-	//	alternative proposed that does not use json unfortunately i get
-	//msg openerp.web undefined.
-	/* 	$('.type_selection').on('click', function ()
+  /*
+	$('.type_selection').on('click', function ()
 			{
 				type_id= this.value
 				(new openerp.web.model('product.finishing'))
@@ -29,11 +27,17 @@ $(document).ready(function () {
 				.filter([['type_option_ids', 'in', type_id.id]])
 				.all()
 				.then(function(results)
-				    {console.log(results);
-				    //if this works, append the fields here
+					{
+					$.each(results,function(element)
+    			  			{
+    			  				if(results[element])
+    			  				{
+    			  					$('#fini_select_id').append("<option value='" + resultss[element].id + "'>"+ results[element].name + "</option>");
+    			  				}
+    			  			});
 				    })
-			});*/
-
+			});
+*/
 
 	$('#mainf input, #mainf select').each(function() {
 			var element=this;
