@@ -6,7 +6,7 @@ import openerp.addons.website_chd_product_configurator.controllers.controllers a
 
 class wish_init(http.Controller):
     # display current users wishlist
-    @http.route('/chd_init/wishlist/', website=True)
+    @http.route('/saved/', website = True)
     def wish(self):
         partner = http.request.env.user.partner_id
         if partner is False:
@@ -64,7 +64,6 @@ class Chd_website_ext(pc.Chd_website):
                 })
             results = result_model.search([('wishlist', '=', wishlist.ids[0])])
             return http.request.render('website_chd_wishlist.show_list', {
-                'summary': form_data['summary'],
                 'user': result.create_uid,
                 'results': results,
                 })

@@ -17,7 +17,7 @@
         <template id="header" inherit_id="website.layout" name="Header_wishlist">
             <xpath expr="//header//ul[@id='top_menu']/li" position="after">
                 <li >
-                    <a href="/chd_init/wishlist/">My saved offers</a>
+                    <a href="/">My saved offers</a>
                 </li>
             </xpath>
         </template>
@@ -51,7 +51,7 @@
                             
                             <div class="col-sm-12">
                                 <t t-foreach="results" t-as="result">
-                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy#{result.id}/" method="post" class="form-horizontal result_option">
+                                    <form t-attf-name="/buy#{result_id}" t-attf-action="/buy#{result.id}/" method="post" class="form-horizontal result_option">
                                         <input type="hidden" name="result_obj" t-att-value="result" />
                                         <div  class="row" style="border-bottom: 0.5px solid;" id="sale_option">
                                             <br/>

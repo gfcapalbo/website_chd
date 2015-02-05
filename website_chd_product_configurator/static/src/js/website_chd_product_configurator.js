@@ -2,7 +2,7 @@ $(document).ready(function () {
 
 	$('.type_selection').on('change', function ()
     {
-    	openerp.jsonRpc('/chd_init/getch/', 'call',
+    	openerp.jsonRpc('/getch/', 'call',
     		 {'type_id': this.value,}).then(function (data)
     				 {
     			            $('#fini_select_id').empty();

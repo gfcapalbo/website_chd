@@ -8,7 +8,7 @@ import json
 
 class Chd_website(http.Controller):
 
-    @http.route('/chd_init/', auth='public', website=True)
+    @http.route('/conf/', auth = 'public', website = True)
     # need to append useless **kwargs to allow the openerp debug switch to work.
     def start(self, selected_id = False, type = False, **kwargs):
         partner = request.env.user.partner_id
@@ -48,7 +48,7 @@ class Chd_website(http.Controller):
             })
 
     # shows the options list
-    @http.route('/chd_init/<int:id>/', website = True)
+    @http.route('/conf/<int:id>/', website = True)
     def call_configurator(self, id = None, **form_data):
         errormsg = ""
         product_template_model = request.env['product.template']
@@ -187,7 +187,7 @@ class Chd_website(http.Controller):
         else:
             return current_partner[0]"""
 
-    @http.route('/chd_init/buy<int:id>/', website = True)
+    @http.route('/buy<int:id>/', website = True)
     def chosen_option(self, id = None, **form_data):
         partner = request.env.user.partner_id
         if not partner:
@@ -222,7 +222,7 @@ class Chd_website(http.Controller):
                     })
 
     # method for fetching finishing options via json
-    @http.route('/chd_init/getch/', type='json')
+    @http.route('/getch/', type = 'json')
     def tr(self, type_id):
         curr_types = request.env['product.finishing'].search(
             [('type_option_ids', 'in', [type_id])])

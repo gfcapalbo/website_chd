@@ -14,7 +14,7 @@
                 <div class="oe_structure">
                     <div class="container">
                         <h3>configurable products available</h3>
-                        <form t-attf-action="/chd_init/" method="post" >
+                        <form t-attf-action="/conf/" method="post" >
                             <select t-attf-name="selected_id" class= "form-control product_selection" id="prod_select_id">
                                 <option>
                                 </option>
@@ -42,7 +42,7 @@
                             Configuration options for
                             <t t-esc="curr_product_id.name" />
                         </h3>
-                        <form id="mainf" t-attf-action="/chd_init/#{ curr_product_id.id }/" method="post"  enctype="multipart/form-data"  class="form-horizontal">
+                        <form id="mainf" t-attf-action="/conf/#{ curr_product_id.id }/" method="post"  enctype="multipart/form-data"  class="form-horizontal">
                             <div class="row">
                                 <div class="col-sm-9">
                                     <div class="row">
@@ -274,7 +274,7 @@
                             
                             <div class="col-sm-8">
                                 <t t-foreach="results" t-as="result">
-                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy#{result.id}/" method="post" class="form-horizontal result_option">
+                                    <form t-attf-name="buy#{result_id}" t-attf-action="/buy#{result.id}/" method="post" class="form-horizontal result_option">
                                         <input type="hidden" name="result_obj" t-att-value="result" />
                                         <div  class="row" style="border-bottom: 0.5px solid;" id="sale_option">
                                             <br/>
@@ -445,7 +445,7 @@
         <template id="header" inherit_id="website.layout" name="Header Product Configurator">
             <xpath expr="//header//ul[@id='top_menu']/li" position="before">
                 <li >
-                    <a href="/chd_init/">Product Configurator</a>
+                    <a href="/conf/">Product Configurator</a>
                 </li>
             </xpath>
         </template>
