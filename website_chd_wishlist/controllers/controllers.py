@@ -8,7 +8,7 @@ class wish_init(http.Controller):
     # display current users wishlist
     @http.route('/chd_init/wishlist/', website=True)
     def wish(self):
-        partner = get_current_partner()
+        partner = http.request.env.user.partner_id
         if partner is False:
             return http.request.render(
                 'website_chd_product_configurator.no_partner', {})
@@ -31,13 +31,12 @@ class wish_init(http.Controller):
 class Chd_website_ext(pc.Chd_website):
     @http.route()
     def chosen_option(self, **form_data):
-        partner = get_current_partner()
+        partner = http.request.env.user.partner_id
         if partner is False:
             return http.request.render(
                 'website_chd_product_configurator.no_partner', {})
         result_model = http.request.env['chd.product_configurator.result']
-        result = result_model.search([('id', '=', form_data['id'])])
-        http.request.context['active_id'] = result.id
+        result = result_model.browse([form_data['id']])
         wishlist_model = http.request.env['chd.wishlist']
         # check if the user already has a wishlist if not create
         wishlist = wishlist_model.search([('owner', '=', partner.id)])
@@ -72,7 +71,7 @@ class Chd_website_ext(pc.Chd_website):
         return super(Chd_website_ext, self).chosen_option(**form_data)
 
 
-def get_current_partner():
+""""def get_current_partner():
         partner_model = http.request.env['res.partner']
         current_partner = partner_model.search([
             ('user_account_id', '=', http.request.uid)
@@ -80,4 +79,4 @@ def get_current_partner():
         if len(current_partner) == 0:
             return False
         else:
-            return current_partner[0]
+            return current_partner[0]"""

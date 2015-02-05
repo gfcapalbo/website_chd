@@ -1,54 +1,39 @@
-    .divTable
-    {
-        display:  table;
-        width:auto;
-        background-color:#eee;
-        border:1px solid  #666666;
-        border-spacing:5px;/*cellspacing:poor IE support for  this*/
-       /* border-collapse:separate;*/
-    }
+ ul li
+ {
+     list-style-type: none;
+ }
 
-    .divRow
-    {
-       display:table-row;
-       width:auto;
-    }
+ul li :checked
+{
+     background-color: green;
+  }
 
-    .divCell
-    {
-        float:left;/*fix for  buggy browsers*/
-        display:table-column;
-        width:200px;
-        background-color:#ccc;
-    }
-
-    ul li {
-    list-style-type: none;
-    }
-
-    ul li :checked{
-    background-color: green;
-    }
-    #small_listquantity
-    {
+#small_listquantity
+{
     font-size:8px;
-    }
+}
 
-    .quotation
-    {
+.quotation
+{
     font-size : 14px;
     font-weight : normal;
     color: green;
-    }
+}
 
+.solid
+{
+    border:1px solid #D0D0D0 ;
+    padding:6px;
+}
 
-    .solid{
-       border:1px solid #D0D0D0 ;
-       padding:6px;
-    }
-
-    #sale_option:hover
-    {
+#sale_option:hover
+{
     background-color:#F8F8F8;
-    }
-</style>
+}
+
+.error
+{
+	color:red;
+	font-weight:bold;
+	font-size:11px;
+}

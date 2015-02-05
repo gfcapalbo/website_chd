@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import openerp
 from openerp import http
 from openerp.http import request
 from openerp.osv import orm
@@ -8,30 +9,28 @@ import json
 class Chd_website(http.Controller):
 
     @http.route('/chd_init/', auth='public', website=True)
-    def start(self, selected_id=False, type=False):
-        partner = self.get_current_partner()
-        if partner is False:
+    # need to append useless **kwargs to allow the openerp debug switch to work.
+    def start(self, selected_id = False, type = False, **kwargs):
+        partner = request.env.user.partner_id
+        if not partner:
             return request.render(
                 'website_chd_product_configurator.no_partner', {})
-        Conf_products = request.env['product.template']
-        accessories = request.env['product.product']
-        chd_price_components_at = request.env[
+        product_template_model = request.env['product.template']
+        product_product_model = request.env['product.product']
+        pc_at_model = request.env[
             'price.component.attribute.template']
-        chd_types = request.env['product.type']
+        product_type_model = request.env['product.type']
         chd_finishing = request.env['product.finishing']
         # when posting a selected product to configure
-        if request.httprequest.method == 'POST' and selected_id:
-            curr_types = chd_types.search([
+        if selected_id:
+            curr_types = product_type_model.search([
                 ('product_option_ids', 'in', [selected_id])
                 ])
-            curr_product = Conf_products.search([('id', '=', selected_id)])
-            curr_chd_price_component_ats = chd_price_components_at.search([
-                ('id', 'in', curr_product.attribute_template_ids.ids),
-                ('active', '=', True)
-                ])
-            avail_accessories = accessories.search([
-                ('id', 'in', curr_product.chd_accessoire_ids.ids)
-                ])
+            # explicitly cast selected id integer otherwise browse raises error
+            curr_product = product_template_model.browse([int(selected_id)])
+            curr_chd_price_component_ats = curr_product.attribute_template_ids
+            avail_accessories = product_product_model.browse(
+                curr_product.chd_accessoire_ids.ids)
             return request.render(
                 'website_chd_product_configurator.configurator',
                 {
@@ -41,35 +40,35 @@ class Chd_website(http.Controller):
                     curr_chd_price_component_ats,
                     'avail_accessories': avail_accessories,
                     })
-        # first iteration, loading the page
+        """first iteration, loading the page"""
         return request.render('website_chd_product_configurator.conf_start', {
-            'conf_products': Conf_products.search([(
+            'conf_products': product_template_model.search([(
                 'chd_origin_product', '=', True)
                 ]),
             })
 
     # shows the options list
-    @http.route('/chd_init/<id>/', website=True)
-    def call_configurator(self, **form_data):
+    @http.route('/chd_init/<int:id>/', website = True)
+    def call_configurator(self, id = None, **form_data):
         errormsg = ""
-        Conf_products = request.env['product.template']
-        chd_results = request.env['chd.product_configurator.result']
-        curr_product_id = Conf_products.search([('id', '=', form_data['id'])])
-        chd_price_components_at = request.env[
+        product_template_model = request.env['product.template']
+        chd_results_model = request.env['chd.product_configurator.result']
+        curr_product_id = product_template_model.browse([id])
+        pc_at_model = request.env[
             'price.component.attribute.template']
         all_accessories = []
         all_attributes = {}
         chd_dict = {
-            'origin_product_id': curr_product_id.ids[0],
-            'partner_id': self.get_current_partner().id,
+            'origin_product_id': curr_product_id.id,
+            'partner_id': request.env.user.partner_id.id,
             'state': 'config',
             'quantity': form_data['quantity']
             }
         # dynamic and fixed size types
         if form_data['product_id_chd_size_type'] == "fixed":
             chd_dict['size_id'] = form_data['size']
-            chd_size = request.env['chd.size'].search([
-                ('id', '=', form_data['size'])
+            chd_size = request.env['chd.size'].browse([
+                int(form_data['size'])
                 ])
             chd_dict['width'] = chd_size.width
             chd_dict['height'] = chd_size.height
@@ -78,9 +77,9 @@ class Chd_website(http.Controller):
             chd_dict['height'] = form_data['height']
         # if there aren't any errors, upload the image
         message = ''
-        has_image = Conf_products.search([
-            ('id', '=', form_data['product_id'])
-            ])[0].chd_configurator_has_image
+        has_image = product_template_model.browse([
+            int(form_data['product_id'])
+            ]).chd_configurator_has_image
         if has_image:
             try:
                 import base64
@@ -111,7 +110,12 @@ class Chd_website(http.Controller):
         # add attributes to the configurator
         chd_dict['attributes'] = str(all_attributes)
         # dictionary is complete, create configurator
-        new_chd = request.env['chd.product_configurator'].create(chd_dict)
+        try:
+            new_chd = request.env['chd.product_configurator'].create(chd_dict)
+        except orm.except_orm as e:
+            errormsg = e.value
+        except AssertionError as a:
+            errormsg = a.value
         # add accessories and price components selections to the configurator
         for key in form_data:
             # get only accessories that have been checked
@@ -129,25 +133,25 @@ class Chd_website(http.Controller):
                     })
                 all_accessories.append(new_accessory)
         # our product configurator is ready, we can now calculate options
-        # _model refers to old API model, self.pool
+        # model refers to old API model, self.pool
         # is not available in controller context (praise the lord for Holger!)
         try:
             res = new_chd._model.calculate_price(
                 request.cr, request.uid, [new_chd.id], context=request.context)
-        except orm.except_orm:
-            errormsg = "No result found for the values that you entered. \
-            We would be happy to give you a custom quote. \
-            Please call 010-7856766"
-        results = chd_results.search([('configurator_id', '=', new_chd.id)])
-        if errormsg != "" and len(results.ids) == 0:
-            chd_types = request.env['product.type']
-            Conf_products = request.env['product.template']
-            accessories = request.env['product.product']
-            curr_types = chd_types.search(
-                [('product_option_ids', 'in', [int(form_data['product_id'])])])
-            avail_accessories = accessories.search(
+            results = chd_results_model.search([
+                ('configurator_id', '=', new_chd.id)])
+        except orm.except_orm as e:
+                errormsg += e.value
+
+        if errormsg != "":
+            product_type_model = request.env['product.type']
+            product_product_model = request.env['product.product']
+            curr_types = product_type_model.search([
+                ('product_option_ids', 'in', [int(form_data['product_id'])])
+                ])
+            avail_accessories = product_product_model.search(
                 [('id', 'in', curr_product_id.chd_accessoire_ids.ids)])
-            curr_chd_price_component_ats = chd_price_components_at.search(
+            curr_chd_price_component_ats = pc_at_model.search(
                 [
                     ('id', 'in', curr_product_id.attribute_template_ids.ids),
                     ('active', '=', True)
@@ -174,26 +178,25 @@ class Chd_website(http.Controller):
                 'summary': form_data['summary'],
                 })
 
-    def get_current_partner(self):
+    """def get_current_partner(self):
         partner_model = request.env['res.partner']
         current_partner = partner_model.search(
             [('user_account_id', '=', request.uid)])
         if len(current_partner) == 0:
             return False
         else:
-            return current_partner[0]
+            return current_partner[0]"""
 
-    @http.route('/chd_init/buy<id>/', website=True)
-    def chosen_option(self, **form_data):
-        partner = self.get_current_partner()
-        if partner is False:
+    @http.route('/chd_init/buy<int:id>/', website = True)
+    def chosen_option(self, id = None, **form_data):
+        partner = request.env.user.partner_id
+        if not partner:
             return request.render(
                 'website_chd_product_configurator.no_partner', {})
         result_model = request.env['chd.product_configurator.result']
-        result = result_model.search([('id', '=', form_data['id'])])
-        configurator = request.env['chd.product_configurator'].search(
-            [('id', '=', result.configurator_id.id)])
-        request.context['active_id'] = result.id
+        result = result_model.browse([id])
+        configurator = result.configurator_id.id
+        context_for7call = dict(request.context or {}, active_id = result.id)
         fields = [
             'order_id',
             'return_to_order',
@@ -204,13 +207,13 @@ class Chd_website(http.Controller):
             # again, access 7.0 with ._model property
             doorder_res = doorder_model._model.default_get(
                 request.cr, request.uid,
-                fields_list=fields, context=request.context)
+                fields_list = fields, context = context_for7call)
             #will make all "erased" results point to wishlist 0.
             result.write({
                 'wishlist': 0,
                 })
-            order = request.env['sale.order'].search(
-                [('id', '=', doorder_res['order_id'])])
+            order = request.env['sale.order'].browse(
+                [doorder_res['order_id']])
             return request.render(
                 'website_chd_product_configurator.buy_option', {
                     'summary': result.summary,

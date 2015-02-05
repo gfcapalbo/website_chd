@@ -24,7 +24,6 @@ $(document).ready(function () {
                  'toadd_id': my_chd_result,
                   }).then(function (data) {
                       var data_js = eval(data);
-                      console.log("THIS IS THE DATA" + data_js);
                   })
         });
     });
