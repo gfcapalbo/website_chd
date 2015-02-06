@@ -20,18 +20,22 @@
 ##############################################################################
 
 {
-'name': "website_chd_product_configurator",
-'description': """
-Web front for chindu product configurator
-""",
-'author' : 'Therp B.V.',
-'depends': [
-            'website',
-            'chd_product_configurator',
-           ],
-'data': [
-        'templates/templates.xml',
-        ],
-    'installable': True,
-    'application': True,
+    'name': "website_chd_product_configurator",
+    'description': """
+            Web front for chindu product configurator
+            """,
+    'summary': 'Schedule, Promote and Sell Events',
+    'category':'website',
+    'website': 'https://www.odoo.com/page/e-commerce',
+    'author' : 'Therp B.V.',
+    'version': '1.0',
+    'depends': [
+                'website',
+                'chd_product_configurator',
+               ],
+    'data': [
+            'templates/templates.xml',
+            ],
+        'installable': True,
+        'application': True,
 }

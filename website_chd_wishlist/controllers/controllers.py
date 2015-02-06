@@ -69,14 +69,3 @@ class Chd_website_ext(pc.Chd_website):
                 'results': results,
                 })
         return super(Chd_website_ext, self).chosen_option(**form_data)
-
-
-""""def get_current_partner():
-        partner_model = http.request.env['res.partner']
-        current_partner = partner_model.search([
-            ('user_account_id', '=', http.request.uid)
-            ])
-        if len(current_partner) == 0:
-            return False
-        else:
-            return current_partner[0]"""

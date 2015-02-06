@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 	//	alternative proposed that does not use json unfortunately i get
 	//msg openerp.web undefined.
-	/* 	$('.type_selection').on('click', function ()
+	/*$('.type_selection').on('click', function ()
 			{
 				type_id= this.value
 				(new openerp.web.model('product.finishing'))

@@ -131,6 +131,9 @@ class Chd_website(http.Controller):
                     'configurator_id': new_chd.id,
                     'quantity': accessory_qty,
                     })
+
+                chk_dict['fieldname'] = [(0, 0, {'product_id': ... }),]
+
                 all_accessories.append(new_accessory)
         # our product configurator is ready, we can now calculate options
         # model refers to old API model, self.pool
