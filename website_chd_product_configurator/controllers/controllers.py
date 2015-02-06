@@ -126,16 +126,13 @@ class Chd_website(http.Controller):
                 # right name accessoryid_{id}=on/off and the associated
                 # quantity would be qtyaccessoryid_{id}=9898
                 accessory_qty = form_data['qty' + key]
-                new_accessory = request.env['chd.accessoire_line'].create({
+                dictionary['accessoire_line_ids'] = [(0, 0, {
                     'product_id': accessory_id,
                     'configurator_id': new_chd.id,
                     'quantity': accessory_qty,
-                    })
-
-                chk_dict['fieldname'] = [(0, 0, {'product_id': ... }),]
-
-                all_accessories.append(new_accessory)
-        # our product configurator is ready, we can now calculate options
+                    }), ]
+                new_chd.write(dictionary)
+        # oduct configurator is ready, we can now calculate options
         # model refers to old API model, self.pool
         # is not available in controller context (praise the lord for Holger!)
         try:
@@ -181,14 +178,6 @@ class Chd_website(http.Controller):
                 'summary': form_data['summary'],
                 })
 
-    """def get_current_partner(self):
-        partner_model = request.env['res.partner']
-        current_partner = partner_model.search(
-            [('user_account_id', '=', request.uid)])
-        if len(current_partner) == 0:
-            return False
-        else:
-            return current_partner[0]"""
 
     @http.route('/chd_init/buy<int:id>/', website = True)
     def chosen_option(self, id = None, **form_data):
