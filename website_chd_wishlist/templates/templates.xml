@@ -112,7 +112,6 @@
                                     </form>
                                 </t>
                             </div>
-                            <button id="back" value="back" name="action" type="button" class="btn btn-primary btn-lg pull-left back" >&lt; Back</button>
                         </div>
                     </div>
                 </div>

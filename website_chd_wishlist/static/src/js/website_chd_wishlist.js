@@ -7,26 +7,11 @@ $(document).ready(function () {
 			var accessories
 			$('<input />').attr('type', 'hidden')
          .attr('name', "summary")
-         .attr('value', document.getElementById("feedback").innerHTML)
+         .attr('value', document.getElementById("feedback").innerHTML )
          .appendTo(chosenform);
          return true;
     });
 
-
-
-    $('.addwish').each(function () {
-        console.log(this);
-        var addwish = this;
-        $(addwish).on('click' , function ()
-        {
-            openerp.jsonRpc('/chd_init/wishadd/', 'call',
-                 {
-                 'toadd_id': my_chd_result,
-                  }).then(function (data) {
-                      var data_js = eval(data);
-                  })
-        });
-    });
 
 	$(".back").click(function () {
 		window.history.back().refresh();
