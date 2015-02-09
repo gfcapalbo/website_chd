@@ -117,21 +117,23 @@ class Chd_website(http.Controller):
         except AssertionError as a:
             errormsg = a.value
         # add accessories and price components selections to the configurator
+        list = []
         for key in form_data:
             # get only accessories that have been checked
-            if ('accessoryid_' in key) and form_data[key] == 'on':
+            if ('accessoryid_' in key) and form_data[key] != 0:
                 # extrapolate the id encoded the name
                 accessory_id = int(key.split('_')[1])
                 # get the associated value by choosing the field with the
                 # right name accessoryid_{id}=on/off and the associated
                 # quantity would be qtyaccessoryid_{id}=9898
-                accessory_qty = form_data['qty' + key]
-                dictionary['accessoire_line_ids'] = [(0, 0, {
+                accessory_qty = int(form_data[key])
+                list.append((0, 0, {
                     'product_id': accessory_id,
                     'configurator_id': new_chd.id,
-                    'quantity': accessory_qty,
-                    }), ]
-                new_chd.write(dictionary)
+                    'quantity': accessory_qty, }
+                    ))
+
+        new_chd.write({'accessoire_line_ids':list})
         # oduct configurator is ready, we can now calculate options
         # model refers to old API model, self.pool
         # is not available in controller context (praise the lord for Holger!)
