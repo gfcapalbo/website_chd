@@ -132,8 +132,8 @@ class Chd_website(http.Controller):
                     'configurator_id': new_chd.id,
                     'quantity': accessory_qty, }
                     ))
-
-        new_chd.write({'accessoire_line_ids':list})
+        if list != []:
+            new_chd.write({'accessoire_line_ids':list})
         # oduct configurator is ready, we can now calculate options
         # model refers to old API model, self.pool
         # is not available in controller context (praise the lord for Holger!)
