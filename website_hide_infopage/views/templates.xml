@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="website_hide_infopage assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/website_hide_infopage/static/src/js/website_hide_infopage.js"></script>
+                <link rel="stylesheet" href="/website_hide_infopage/static/src/css/website_hide_infopage.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

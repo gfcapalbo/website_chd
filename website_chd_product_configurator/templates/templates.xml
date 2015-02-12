@@ -73,20 +73,20 @@
                                         <div class="col-sm-6">
                                             <div class="row">
                                                 <div class="col-sm-2">
-                                                    <label for="size">Width</label>
+                                                    <label for="width">Width</label>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input required="required" type="number" t-attf-min="#{curr_product_id.chd_min_width}" t-attf-max="#{curr_product_id.chd_max_width}" size="7" name="width" class="form-control
-                                                        input-sm"/>
+                                                        input-sm sizes"/>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-2">
-                                                    <label for="size">Height</label>
+                                                    <label for="height">Height</label>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input required="required" type="number" t-attf-min="#{curr_product_id.chd_min_height}" t-attf-max="#{curr_product_id.chd_max_height}" size="7" name="height" class="form-control
-                                                        input-sm" />
+                                                    input-sm sizes" />
                                                 </div>
                                             </div>
                                         </div>

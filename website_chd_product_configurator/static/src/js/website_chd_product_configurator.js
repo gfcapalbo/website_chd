@@ -35,6 +35,7 @@ $(document).ready(function () {
 			});*/
 
 
+
 	$('#mainf input, #mainf select').each(function() {
 			var element=this;
 			$(element).on('change', function()

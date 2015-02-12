@@ -229,3 +229,16 @@ class Chd_website(http.Controller):
             context=request.context
             ))
         return data
+
+
+    # automatically calculate sqm and return it if necesary
+    @http.route('/chd_init/getsqm/', type = 'json')
+    def sqm(self, height, width):
+        sqm = (height * width) / 100
+        data = json.dumps({'sqm': sqm})
+        return data
+
+
+
+
+
