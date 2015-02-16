@@ -21,4 +21,9 @@
 
 openerp.website_hide_infopage = function(instance)
 {
+	 $(".back").click(function ()
+			 {
+	     		window.history.back();
+			 });
 }
+

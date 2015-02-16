@@ -20,16 +20,13 @@
 ##############################################################################
 
 {
-'name': "website_anonymous",
-'description': """
-Removes references of the company from the website"
-
-""",
+'name': 'website_anonymous',
+'summary' : "Removes references of the company from the website"
+'category': 'Website',
+'version': 0.1,
+'license': 'AGPL-3',
 'author' : 'Therp B.V.',
 'depends': ['base',
             'website',
            ],
-'data': [
-
-        ],
 }

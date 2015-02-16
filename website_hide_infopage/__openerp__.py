@@ -23,12 +23,13 @@
     "version": "1.0",
     "author": "Therp BV",
     "license": "AGPL-3",
-    "category": "",
+    "category": "Dependecy/Hidden",
     "summary": "",
-    "depends": [
+    "depends": ['website',
+        'support_branding',
     ],
     "data": [
-        'views/templates.xml',
+        'templates/templates.xml',
         'security/ir.model.access.csv',
     ],
     "qweb": [
@@ -36,7 +37,7 @@
     "test": [
     ],
     "auto_install": False,
-    "installable": True,
+    "installable": False,
     "application": False,
     "external_dependencies": {
         'python': [],

@@ -1,38 +1,21 @@
 $(document).ready(function () {
 
 	$('.type_selection').on('change', function ()
-    {
-    	openerp.jsonRpc('/chd_init/getch/', 'call',
-    		 {'type_id': this.value,}).then(function (data)
-    				 {
-    			            $('#fini_select_id').empty();
-    			  			$('#fini_select_id').append("<option></option>");
-    			  			var data_js = eval(data);
-    			  			$.each(data_js,function(element)
-    			  			{
-    			  				if(data_js[element])
-    			  				{
-    			  					$('#fini_select_id').append("<option value='" + data_js[element].id + "'>"+ data_js[element].name + "</option>");
-    			  				}
-
-    			  			});
-    		  })
+    {	var website = openerp.website;
+		return website.session.model('product.finishing').call('search_read', [], {
+		    domain: [['type_option_ids', 'in', [this.value]]],
+		    fields: ['id', 'name'],
+		    limit: 30,
+		}).then(function(finishings)
+				{	debugger;
+					$('#fini_select_id').empty();
+					$('#fini_select_id').append("<option></option>");
+					for (i = 0; i < finishings.length; i++) {
+							$('#fini_select_id').append("<option value='" + finishings[i].id + "'>"+ finishings[i].name + "</option>");
+					}
+				})
     });
 
-	//	alternative proposed that does not use json unfortunately i get
-	//msg openerp.web undefined.
-	/*$('.type_selection').on('click', function ()
-			{
-				type_id= this.value
-				(new openerp.web.model('product.finishing'))
-				.query(['id', 'name'])
-				.filter([['type_option_ids', 'in', type_id.id]])
-				.all()
-				.then(function(results)
-				    {console.log(results);
-				    //if this works, append the fields here
-				    })
-			});*/
 
 
 
@@ -115,7 +98,4 @@ $(document).ready(function () {
 			 });
 
 });
-
-
-
 

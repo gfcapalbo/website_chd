@@ -25,7 +25,7 @@
             Web front for chindu product configurator
             """,
     'summary': 'Schedule, Promote and Sell Events',
-    'category':'website',
+    'category':'Website',
     'website': 'https://www.odoo.com/page/e-commerce',
     'author' : 'Therp B.V.',
     'version': '1.0',
