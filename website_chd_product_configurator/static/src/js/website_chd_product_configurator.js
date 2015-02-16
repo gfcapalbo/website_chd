@@ -1,5 +1,5 @@
-$(document).ready(function () {
-
+$(document).ready(function ()
+	{
 	$('.type_selection').on('change', function ()
     {	var website = openerp.website;
 		return website.session.model('product.finishing').call('search_read', [], {
@@ -19,7 +19,8 @@ $(document).ready(function () {
 
 
 
-	$('#mainf input, #mainf select').each(function() {
+	$('#mainf input, #mainf select').each(function()
+			{
 			var element=this;
 			$(element).on('change', function()
 					{
