@@ -21,15 +21,7 @@
 
 {
 'name': "website_chd_wishlist",
-'description': """
-Wishlist for web front chindu product configurator
-When the sales options appear, a button
-add to wishlist" will be available
-The user will have the possibility to view his wishlists
-and transform them in orders
-(in other words create quotations in the product configurator"
-
-""",
+'summary': 'Wishlist for web front chindu product configurator',
 'author' : 'Therp B.V.',
 'depends': ['base',
             'website',
