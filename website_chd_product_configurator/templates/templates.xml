@@ -86,7 +86,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input required="required" type="number" t-attf-min="#{curr_product_id.chd_min_height}" t-attf-max="#{curr_product_id.chd_max_height}" size="7" name="height" class="form-control
-                                                    input-sm sizes" />
+                                                        input-sm sizes" />
                                                 </div>
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                             
                             <div class="col-sm-8">
                                 <t t-foreach="results" t-as="result">
-                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy#{result.id}/" method="post" class="form-horizontal result_option">
+                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy/#{ result.id }/" method="post" class="form-horizontal result_option">
                                         <input type="hidden" name="result_obj" t-att-value="result" />
                                         <div  class="row" style="border-bottom: 0.5px solid;" id="sale_option">
                                             <br/>

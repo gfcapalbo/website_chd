@@ -46,6 +46,7 @@ class Chd_website(http.Controller):
     @http.route('/chd_init/<model("product.template"):curr_product_id>/', website = True)
     def call_configurator(self, curr_product_id = None, **form_data):
         errormsg = []
+        message=[]
         product_template_model = request.env['product.template']
         chd_results_model = request.env['chd.product_configurator.result']
         pc_at_model = request.env[
@@ -80,11 +81,11 @@ class Chd_website(http.Controller):
                 # add uploaded image to configurator
                 chd_dict['image'] = base64.b64encode(fileitem.stream.read())
                 chd_dict['image_filename'] = fileitem.filename
-                message = 'image uploaded successfully'
+                message.append('image uploaded successfully')
             except:
-                message = 'Problems uploading your image, please contact us'
+                message.append('Problems uploading your image, please contact us')
         if not message:
-            message = 'no image needed for this product'
+            message.append('no image needed for this product')
         accessory_list = []
         for key in form_data:
             if ('pricecomponent_' in key):
@@ -98,7 +99,7 @@ class Chd_website(http.Controller):
                     # the configurator stores the attributes in a
                     # dictionary in the "attributes" field ,
                     all_attributes.update({
-                        '_attribute_%s' + pricecomponent_id: int(
+                        '_attribute_%s' %(str(pricecomponent_id)): int(
                             pricecomponent_value)
                         })
                 # add accessories to configurator dict
@@ -158,8 +159,8 @@ class Chd_website(http.Controller):
                 })
 
 
-    @http.route('/chd_init/buy<model("chd.product_configurator.result"):result>/', website = True)
-    def chosen_option(self, result = None, **form_data):
+    @http.route('/chd_init/buy/<model("chd.product_configurator.result"):result>/', website = True)
+    def chosen_option(self, result=None, **form_data):
         partner = request.env.user.partner_id
         if not partner:
             return request.render(

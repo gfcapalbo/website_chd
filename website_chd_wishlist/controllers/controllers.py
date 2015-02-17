@@ -30,13 +30,12 @@ class wish_init(http.Controller):
 # inheriting and extending the controller in the website_chd_module
 class Chd_website_ext(pc.Chd_website):
     @http.route()
-    def chosen_option(self, **form_data):
+    def chosen_option(self,result,**form_data):
         partner = http.request.env.user.partner_id
         if partner is False:
             return http.request.render(
                 'website_chd_product_configurator.no_partner', {})
         result_model = http.request.env['chd.product_configurator.result']
-        result = result_model.browse([form_data['id']])
         wishlist_model = http.request.env['chd.wishlist']
         # check if the user already has a wishlist if not create
         wishlist = wishlist_model.search([('owner', '=', partner.id)])
@@ -54,6 +53,7 @@ class Chd_website_ext(pc.Chd_website):
                 'summary': result.summary,
                 'user': result.create_uid,
                 'results': results,
+                'lastaction': str(form_data['action'])
                 })
         elif form_data['action'] == 'erase':
             #do not want to erase the configurator result.
@@ -67,5 +67,6 @@ class Chd_website_ext(pc.Chd_website):
                 'summary': form_data['summary'],
                 'user': result.create_uid,
                 'results': results,
+                'lastaction': str(form_data['action']),
                 })
-        return super(Chd_website_ext, self).chosen_option(**form_data)
+        return super(Chd_website_ext, self).chosen_option(result,**form_data)

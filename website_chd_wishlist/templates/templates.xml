@@ -39,8 +39,11 @@
                             <div class="col-sm-12">
                                 <div t-if="summary" class="row mt4 solid">
                                     <p>
-                                        <b>
-                                            <i>Just Added to your saved offers area:</i>
+                                        <b t-if="lastaction in ('erase')" class="row mt2 none">
+                                            <i>Just permanently removed from your saved offers area:</i>
+                                        </b>
+                                        <b t-if="lastaction in ('wish')" class="row mt2 none">
+                                            <i>Just added to your saved offers area:</i>
                                         </b>
                                     </p>
                                     <div id="justadded" class="col-xs-12">
@@ -51,7 +54,7 @@
                             
                             <div class="col-sm-12">
                                 <t t-foreach="results" t-as="result">
-                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy#{result.id}/" method="post" class="form-horizontal result_option">
+                                    <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy/{result.id}/" method="post" class="form-horizontal result_option">
                                         <input type="hidden" name="result_obj" t-att-value="result" />
                                         <div  class="row" style="border-bottom: 0.5px solid;" id="sale_option">
                                             <br/>
