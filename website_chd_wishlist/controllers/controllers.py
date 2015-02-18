@@ -64,7 +64,7 @@ class Chd_website_ext(pc.Chd_website):
                 })
             results = result_model.search([('wishlist', '=', wishlist.ids[0])])
             return http.request.render('website_chd_wishlist.show_list', {
-                'summary': form_data['summary'],
+                'summary': result.summary,
                 'user': result.create_uid,
                 'results': results,
                 'lastaction': str(form_data['action']),
