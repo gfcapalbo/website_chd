@@ -1,0 +1,11 @@
+<openerp>
+    <data>
+        <templates>
+            <t t-name='ButtonWidget'>
+                <div class='button'>
+                    <t t-esc='widget.label' />
+                </div>
+            </t>
+        </templates>
+    </data>
+</openerp>

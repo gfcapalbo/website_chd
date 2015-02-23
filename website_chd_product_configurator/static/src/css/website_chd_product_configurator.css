@@ -1,0 +1,39 @@
+ ul li
+ {
+     list-style-type: none;
+ }
+
+ul li :checked
+{
+     background-color: green;
+  }
+
+#small_listquantity
+{
+    font-size:8px;
+}
+
+.quotation
+{
+    font-size : 14px;
+    font-weight : normal;
+    color: green;
+}
+
+.solid
+{
+    border:1px solid #D0D0D0 ;
+    padding:6px;
+}
+
+#sale_option:hover
+{
+    background-color:#F8F8F8;
+}
+
+.error
+{
+	color:red;
+	font-weight:bold;
+	font-size:11px;
+}
