@@ -14,14 +14,6 @@
             </xpath>
         </template>
         
-        <template id="header" inherit_id="website.layout" name="Header_wishlist">
-            <xpath expr="//header//ul[@id='top_menu']/li" position="after">
-                <li >
-                    <a href="/chd_init/wishlist/">My saved offers</a>
-                </li>
-            </xpath>
-        </template>
-        
         <template id="show_list">
             <t t-call="website.layout">
                 <t t-set="title">My offers</t>
@@ -137,6 +129,14 @@
                 </div>
                 <div class="oe_structure"/>
             </t>
+        </template>
+        
+        <template id="header" inherit_id="website.layout" name="Header_wishlist">
+            <xpath expr="//header//ul[@id='top_menu']" position="inside">
+                <li >
+                    <a href="/chd_init/wishlist/">My saved offers</a>
+                </li>
+            </xpath>
         </template>
         
     </data>
