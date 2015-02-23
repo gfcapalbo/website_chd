@@ -443,7 +443,7 @@
         </template>
         
         <template id="header" inherit_id="website.layout" name="Header Product Configurator">
-            <xpath expr="//header//ul[@id='top_menu']/li" position="before">
+            <xpath expr="//header//ul[@id='top_menu']" position="inside">
                 <li >
                     <a href="/chd_init/">Product Configurator</a>
                 </li>
