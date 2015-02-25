@@ -4,7 +4,7 @@ from openerp import http
 from openerp.http import request
 from openerp.osv import orm
 import json
-
+import openerp.addons.website_sale.controllers.main as websale
 
 class Chd_website(http.Controller):
 
@@ -145,7 +145,8 @@ class Chd_website(http.Controller):
                     curr_chd_price_component_ats,
                     'errormsg': errormsg,
                     })
-
+        if not message:
+            append.message('')
         return request.render(
             'website_chd_product_configurator.sale_options',
             {
@@ -189,9 +190,3 @@ class Chd_website(http.Controller):
                     'result': result,
                     'order': order,
                     })
-
-
-
-
-
-
