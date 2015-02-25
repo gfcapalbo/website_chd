@@ -27,6 +27,7 @@ first web widget"
 'author' : 'Therp B.V.',
 'depends': ['base',
             'website',
+
            ],
 'data': [
         'templates/widgetshow.xml',
