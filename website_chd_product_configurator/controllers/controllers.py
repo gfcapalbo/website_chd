@@ -10,7 +10,7 @@ class Chd_website(http.Controller):
 
     @http.route('/chd_init/', auth='public', website=True)
     # need to append useless **kwargs to allow the openerp debug switch to work.
-    def start(self, selected_id = False, type = False, **kwargs):
+    def start(self, selected_id = False, type = False, fromshop=False,**kwargs):
         partner = request.env.user.partner_id
         if not partner:
             return request.render(
@@ -173,6 +173,9 @@ class Chd_website(http.Controller):
             'display_order_id',
             'result_id']
         if form_data['action'] == 'buy':
+            #Assign configurator object to sale order of the current cart
+            #could do it on configurator generation?
+            result.configurator_id.order_id = request.website.sale_get_order(force_create=1)
             doorder_model = request.env['chd.product_configurator.do_order']
             # again, access 7.0 with ._model property
             doorder_res = doorder_model._model.default_get(
