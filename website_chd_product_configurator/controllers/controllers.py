@@ -103,12 +103,13 @@ class Chd_website(http.Controller):
                             pricecomponent_value)
                         })
                 # add accessories to configurator dict
-                if ('accessoryid_' in key):
-                    # extrapolate the id encoded the name
-                    accessory_id = int(key.split('_')[1])
-                    # get the associated value by choosing the field with the
-                    # right name accessoryid_{id}=on/off and the associated
-                    # quantity would be qtyaccessoryid_{id}=9898
+            if ('qtyaccessoryid_' in key):
+                # extrapolate the id encoded the name
+                accessory_id = int(key.split('_')[1])
+                # get the associated value by choosing the field with the
+                # right name accessoryid_{id}=on/off and the associated
+                # quantity would be qtyaccessoryid_{id}=9898
+                if form_data[key]:
                     accessory_qty = int(form_data[key])
                     accessory_list.append((0, 0, {
                         'product_id': accessory_id,

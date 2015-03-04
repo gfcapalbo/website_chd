@@ -31,7 +31,7 @@
                 <div class="oe_structure"/>
             </t>
         </template>
-        
+
         <template id="configurator">
             <t t-call="website.layout">
                 <t t-set="title">Product Configurator</t>
@@ -90,7 +90,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-xs-4">
                                             <div >
                                                 <table>
@@ -123,7 +123,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="unselected-field" style="display: inline-block;">
@@ -176,7 +176,7 @@
                                                         </div>
                                                         <div t-if="curr_chd_price_component_at.property_id.type in ('int')" class="row">
                                                             <div class="col-sm-12" >
-                                                                
+
                                                                 <input required="required" type="number" min="0" t-attf-name="pricecomponent_int_id_#{str(curr_chd_price_component_at.id)}_#{str(curr_chd_price_component_at.property_name)}"
                                                                     />
                                                             </div>
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-xs-4">
-                                            
+
                                         </div>
                                         <div class="col-xs-2">
                                             <button type="submit" class="btn btn-primary btn-lg pull-center" >See Quotations</button>
@@ -242,7 +242,7 @@
                                             <h5 t-if="(len(avail_accessories) &gt; 0)">Accessories</h5>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -251,7 +251,7 @@
                 <div class="oe_structure"/>
             </t>
         </template>
-        
+
         <template id="sale_options">
             <t t-call="website.layout">
                 <t t-set="title">Sale Options</t>
@@ -262,7 +262,7 @@
                             Sale options for
                             <t t-esc="curr_product_id.name" />
                         </h3>
-                        
+
                         <div class="row mt12">
                             <div class="col-sm-4">
                                 <div class="row mt4 solid">
@@ -271,7 +271,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-sm-8">
                                 <t t-foreach="results" t-as="result">
                                     <form t-attf-name="buy#{result_id}" t-attf-action="/chd_init/buy/#{ result.id }/" method="post" class="form-horizontal result_option">
@@ -297,7 +297,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-xs-6">
-                                                
+
                                                 <p>
                                                     list price:
                                                     <b>
@@ -324,7 +324,7 @@
                                                 </p>
                                                 <br/>
                                             </div>
-                                            <button id="buy" value="buy" name="action" type="submit" class="btn btn-primary btn-lg pull-right" >Buy</button>
+                                            <button id="buy" value="buy" name="action" type="submit" class="btn btn-primary btn-lg pull-right fa-cart-plus" >Add to cart</button>
                                         </div>
                                     </form>
                                 </t>
@@ -335,7 +335,7 @@
                 <div class="oe_structure"/>
             </t>
         </template>
-        
+
         <template id="buy_option">
             <t t-call="website.layout">
                 <t t-set="title">Purchase</t>
@@ -344,7 +344,7 @@
                     <div class="container">
                         <h3>
                             <t t-esc="result.configurator_id.partner_id.name"/>
-                            , you have confirmed the purchase of
+                            , you have added to your cart:
                             <t t-esc="result.configurator_id.origin_product_id.name"/>
                             configured as follows:
                         </h3>
@@ -428,7 +428,7 @@
                 <div class="oe_structure"/>
             </t>
         </template>
-        
+
         <template id="no_partner">
             <t t-call="website.layout">
                 <t t-set="title">No partner associated</t>
@@ -441,7 +441,7 @@
                 <div class="oe_structure"/>
             </t>
         </template>
-        
+
         <template id="header" inherit_id="website.layout" name="Header Product Configurator">
             <xpath expr="//header//ul[@id='top_menu']" position="inside">
                 <li >
@@ -449,6 +449,6 @@
                 </li>
             </xpath>
         </template>
-        
+
     </data>
 </openerp>
