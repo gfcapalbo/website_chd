@@ -1,0 +1,20 @@
+ <openerp>
+    <data>
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="chd_product_configurator">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/website_ecommerce_extensions/static/src/js/website_ecommerce_extensions.js">
+                </script>
+                <link rel='stylesheet' href='/website_ecommerce_extensions/static/src/css/website_ecommerce_extensions.css'/>
+            </xpath>
+        </template>
+
+        <template id="delete_button" inherit_id="website_sale.cart" name="delete button in cart">
+          <xpath expr="//div[@class='input-group oe_website_spinner']" position="after">
+                         <a id="trash" t-attf-href="#" class="mb8 float_right js_delete_cart_json" data-no-instant="">
+                             <i class="fa fa-trash-o fa-xs "></i> </a>
+         </xpath>
+
+        </template>
+
+    </data>
+</openerp>
