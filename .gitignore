@@ -1,0 +1,9 @@
+
+#eclipse files
+.settings
+.project
+.pydevproject
+
+
+#python binaries
+*.pyc
