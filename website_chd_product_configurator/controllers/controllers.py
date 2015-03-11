@@ -175,7 +175,6 @@ class Chd_website(http.Controller):
             'result_id']
         if form_data['action'] == 'buy':
             #Assign configurator object to sale order of the current cart
-            #could do it on configurator generation?
             result.configurator_id.order_id = request.website.sale_get_order(force_create=1)
             doorder_model = request.env['chd.product_configurator.do_order']
             # again, access 7.0 with ._model property
@@ -190,7 +189,6 @@ class Chd_website(http.Controller):
                 [doorder_res['order_id']])
             return request.render(
                 'website_chd_product_configurator.buy_option', {
-                    'summary': result.summary,
                     'result': result,
                     'order': order,
                     })
