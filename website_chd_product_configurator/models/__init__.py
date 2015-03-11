@@ -1,1 +1,1 @@
-from . import models
+from . import chd_product_configurator
