@@ -100,7 +100,7 @@ class Chd_website(http.Controller):
                     # dictionary in the "attributes" field ,
                     all_attributes.update({
                         '_attribute_%s' %(str(pricecomponent_id)):
-                            pricecomponent_value
+                            int(pricecomponent_value)
                         })
                 # add accessories to configurator dict
             if ('qtyaccessoryid_' in key):
