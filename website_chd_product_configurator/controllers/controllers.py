@@ -68,8 +68,8 @@ class Chd_website(http.Controller):
             chd_dict['width'] = chd_size.width
             chd_dict['height'] = chd_size.height
         else:
-            chd_dict['width'] = form_data['width']
-            chd_dict['height'] = form_data['height']
+            chd_dict['width'] = int(form_data['width'])
+            chd_dict['height'] = int(form_data['height'])
         # if there aren't any errors, upload the image
         has_image = product_template_model.browse([
             int(form_data['product_id'])
@@ -95,12 +95,12 @@ class Chd_website(http.Controller):
                 # the pricecomponent field, the id is encoded in the key
                 if ('pricecomponent_string' in key) or ('pricecomponent_int' in key):
                     pricecomponent_id = int(key.split('_')[3])
-                    pricecomponent_value = form_data[key]
+                    pricecomponent_value = int(form_data[key])
                     # the configurator stores the attributes in a
                     # dictionary in the "attributes" field ,
                     all_attributes.update({
-                        '_attribute_%s' %(str(pricecomponent_id)): int(
-                            pricecomponent_value)
+                        '_attribute_%s' %(str(pricecomponent_id)): 
+                            pricecomponent_value
                         })
                 # add accessories to configurator dict
             if ('qtyaccessoryid_' in key):
