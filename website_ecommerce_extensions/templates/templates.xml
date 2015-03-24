@@ -9,10 +9,11 @@
         </template>
 
         <template id="delete_button" inherit_id="website_sale.cart" name="delete button in cart">
-          <xpath expr="//div[@class='input-group oe_website_spinner']" position="after">
-                         <a id="trash" t-attf-href="#" class="mb8 float_right js_delete_cart_json" data-no-instant="">
-                             <i class="fa fa-trash-o fa-xs "></i> </a>
-         </xpath>
+          <xpath expr="//div[@class='input-group oe_website_spinner']/span[@class='input-group-addon']" position="inside">
+                         <a id="therp_trash" t-attf-href="#" class="mb8 float_right js_delete_cart_json" data-no-instant="">
+                             <i class="fa fa-trash-o fa-xs "></i>
+                         </a>
+              </xpath>
 
         </template>
 

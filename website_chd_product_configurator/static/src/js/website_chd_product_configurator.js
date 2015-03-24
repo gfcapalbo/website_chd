@@ -1,5 +1,6 @@
 $(document).ready(function ()
-	{
+{
+
 	$('.type_selection').on('change', function ()
     {	var website = openerp.website;
 		return website.session.model('product.finishing').call('search_read', [], {
@@ -15,6 +16,22 @@ $(document).ready(function ()
 					}
 				})
     });
+
+
+    $('.senderselector').change(function()
+	            {
+	                var select_sender =this.value
+	                if (select_sender == '-1')
+                    {
+                        $('.extrasender_info').show();
+                    }else{
+                        $('.extrasender_info').hide();
+                    }
+	            });
+
+
+	//calculate total sqm if necessary
+	$("input[name*='Total square meter of the order']").remove();
 
 	$('#mainf input, #mainf select').each(function()
 			{
