@@ -457,7 +457,7 @@
           <div id="customsender">
                <div class="form-group col-lg-12">
                       <label>Sender</label>
-                      <select id="sender_id" name="sender" class="senderselector form-control">
+                      <select id="sender_id" name="use_sender_address" class="senderselector form-control">
                           <option value="0"> Use default address as sender </option>
                           <option value="-1" t-att-selected="error and len(error) > 0 and sender_id == -1">-- Insert a new sender address --</option>
                       </select>
@@ -466,15 +466,15 @@
               <div class="extrasender_info row mb16" t-att-style="not sender_id and 'display:none' or ''">
                   <h3 class="col-lg-12 mt16">Sender Information</h3>
                   <div  t-attf-class="col-lg-6">
-                      <label class="control-label" for="sender_name">Sender Name</label>
+                      <label class="control-label" for="sender_name">Name</label>
                       <input type="text" name="sender_name" class="form-control" />
                   </div>
                   <div  t-attf-class="col-lg-6">
-                      <label class="control-label" for="sender_contact">Sender Contact</label>
+                      <label class="control-label" for="sender_contact">Contact</label>
                       <input type="text" name="sender_contact" class="form-control" />
                   </div>
                   <div t-attf-class="col-lg-6">
-                      <label class="control-label" for="sender_phone">Sender Phone</label>
+                      <label class="control-label" for="sender_phone">Phone</label>
                       <input type="tel" name="sender_phone" class="form-control" />
                   </div>
                   <div  t-attf-class="col-lg-6">
