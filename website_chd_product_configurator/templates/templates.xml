@@ -513,14 +513,11 @@
                      <div> <t t-esc="website_sale_order.sender_city"/> </div>
                     </t>
                     <t t-if="not website_sale_order.use_sender_address">
-                    <div class="mb32">
                       <p>Default Sender Address</p>
-                    </div>
                     </t>
                     <a href="/shop/checkout"><span class="fa fa-arrow-right"/> Change sender address</a>
-
                 </t>
-        </xpath>
+           </xpath>
   </template>
     </data>
 </openerp>
