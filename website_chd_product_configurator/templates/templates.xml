@@ -467,7 +467,7 @@
                   <h3 class="col-lg-12 mt16">Sender Information</h3>
                   <div  t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_name">Name</label>
-                      <input type="text" name="sender_name" class="form-control" />
+                      <input type="text" name="sender_name" class="form-control"  required="required" />
                   </div>
                   <div  t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_contact">Contact</label>
@@ -479,16 +479,16 @@
                   </div>
                   <div  t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_street">Street</label>
-                      <input type="text" name="sender_street" class="form-control" />
+                      <input type="text" name="sender_street" class="form-control" required="required"/>
                   </div>
                   <div class="clearfix"/>
                   <div t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_city">City</label>
-                      <input type="text" name="sender_city" class="form-control" />
+                      <input type="text" name="sender_city" class="form-control"  required="required" />
                   </div>
                   <div t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_zip" style="font-weight: normal">Zip / Postal Code</label>
-                      <input type="text" name="sender_zip" class="form-control" />
+                      <input type="text" name="sender_zip" class="form-control"  required="required" />
                   </div>
                   <div  t-attf-class="col-lg-6">
                       <label class="control-label" for="sender_contact">Email</label>
@@ -501,5 +501,26 @@
         </xpath>
    </template>
 
+
+<template id="sender_address2" inherit_id="website_sale.payment" name="customsender_payment">
+          <xpath expr="//t[h4[text()='Ship To:']]"  position="after">
+                <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+                <t>
+                    <h4 class="mt32">Sender:</h4>
+                   <t t-if="website_sale_order.use_sender_address">
+                     <div> <t t-esc="website_sale_order.sender_name"/> </div>
+                     <div> <t t-esc="website_sale_order.sender_contact"/> </div>
+                     <div> <t t-esc="website_sale_order.sender_city"/> </div>
+                    </t>
+                    <t t-if="not website_sale_order.use_sender_address">
+                    <div class="mb32">
+                      <p>Default Sender Address</p>
+                    </div>
+                    </t>
+                    <a href="/shop/checkout"><span class="fa fa-arrow-right"/> Change sender address</a>
+
+                </t>
+        </xpath>
+  </template>
     </data>
 </openerp>
