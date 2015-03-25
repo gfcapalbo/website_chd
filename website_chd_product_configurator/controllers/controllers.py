@@ -42,6 +42,7 @@ class Chd_website(http.Controller):
             'conf_products': product_template_model.search([(
                 'chd_origin_product', '=', True)
                 ]),
+                'ref': request.env.ref,
             })
 
     # shows the options list
