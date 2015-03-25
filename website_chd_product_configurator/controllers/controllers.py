@@ -35,6 +35,7 @@ class Chd_website(http.Controller):
                     'curr_chd_price_component_ats':
                     curr_chd_price_component_ats,
                     'avail_accessories': avail_accessories,
+                    'ref': request.env.ref,
                     })
         """first iteration, loading the page"""
         return request.render('website_chd_product_configurator.conf_start', {

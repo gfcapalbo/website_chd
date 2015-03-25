@@ -155,7 +155,7 @@
                                             <h3 t-if="len(curr_chd_price_component_ats) &gt; 1">Additional parameters for product (required)</h3>
                                             <t t-foreach="curr_chd_price_component_ats" t-as="curr_chd_price_component_at">
                                                 <!-- i am exluding quantity -->
-                                                <div t-if="curr_chd_price_component_at.property_id.name != 'Quantity'" class="row">
+                                                <div t-if="curr_chd_price_component_at.property_id not in [ref('chd_product_configurator.property_quantity'),ref('chd_product_configurator.property_sqm_total')]" class="row">
                                                     <div class="col-sm-4" >
                                                         <label>
                                                             <t t-esc="curr_chd_price_component_at.property_name "/>
