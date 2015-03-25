@@ -32,7 +32,7 @@ class website_sale_ext(websale.website_sale):
             values_sender['sender_phone'] = data['sender_phone']
             values_sender['sender_email'] = data['sender_email']
             order = request.website.sale_get_order(force_create=1, context=None)
-        elif data and['use_sender_address']=="0"
+        elif data and data['use_sender_address']=="0":
             values_sender['use_sender_address']=False
         order.write(values_sender)
         return super(website_sale_ext, self).checkout_values(data)
